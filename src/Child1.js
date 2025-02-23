@@ -60,6 +60,7 @@ class App extends Component {
     }    
     componentDidUpdate(){
       //total bill vs tips
+      this.componentDidMount()
       console.log("ComponentDidUpdate",this.props.data1)
     }
     render() {
