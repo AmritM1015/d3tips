@@ -16,47 +16,42 @@ class Child2 extends Component {
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    // Select SVG container
+    
     const svg = d3.select(".child2_svg")
       .attr("width", width)
       .attr("height", height)
-      .attr("style", "outline: thin solid black;");   //This will do the job
+      .attr("style", "outline: thin solid black;");  
       
 
-    svg.selectAll("*").remove(); // ✅ Clear old chart before redrawing
+    svg.selectAll("*").remove(); 
 
     const innerChart = svg.append("g")
       .attr("class", "inner_chart")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // ✅ Compute average tip per day
     const groupedData = d3.rollup(
       this.props.data2, 
-      v => d3.mean(v, d => d.tip), // ✅ Computes average `tip` for each day
-      d => d.day // ✅ Groups data by `day`
+      v => d3.mean(v, d => d.tip), 
+      d => d.day 
     );
 
-    // ✅ Convert Map to Array for D3 binding
     const formattedData = Array.from(groupedData, ([day, avgTip]) => ({ day, avgTip }));
 
-    console.log("Grouped Data with Average Tip:", formattedData); // Debugging
-
-    // ✅ Create `xScale` for categorical days
+  
     const xScale = d3.scaleBand()
-      .domain(formattedData.map(d => d.day))  // ✅ Use unique days
+      .domain(formattedData.map(d => d.day))  
       .range([0, innerWidth])
-      .padding(0.2);  // ✅ Space between bars
+      .padding(0.2);  
 
-    // ✅ Create `yScale` for numerical values
+ 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(formattedData, d => d.avgTip)])  // ✅ Use avgTip
-      .range([innerHeight, 0]);  // ✅ Inverted for correct bar orientation
+      .domain([0, d3.max(formattedData, d => d.avgTip)])  
+      .range([innerHeight, 0]); 
 
-    // ✅ Define Axes
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
 
-    // ✅ Append Axes
+    
     innerChart.append("g")
       .attr("class", "x-axis")
       .attr("transform", `translate(0, ${innerHeight})`)
@@ -66,7 +61,7 @@ class Child2 extends Component {
       .attr("class", "y-axis")
       .call(yAxis);
 
-    // ✅ Create Bars
+    
     innerChart.selectAll("rect")
       .data(formattedData)  // ✅ Use grouped data
       .enter()
@@ -83,7 +78,7 @@ class Child2 extends Component {
       .attr("text-anchor", "middle")
       .style("font-size", "16px")
       .text("Average Tip by Day");
-      // X-axis label
+    
       svg.append("text")
       .attr("x", 300)
       .attr("y", 380)
@@ -91,7 +86,7 @@ class Child2 extends Component {
       .style("font-size", "16px")
       .text("Day");
 
-      // Y-axis label
+
       svg.append("text")
       .attr("transform", "rotate(-90)")
       .attr("x", -200)
