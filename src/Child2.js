@@ -63,13 +63,13 @@ class Child2 extends Component {
 
     
     innerChart.selectAll("rect")
-      .data(formattedData)  // ✅ Use grouped data
+      .data(formattedData)  
       .enter()
       .append("rect")
-      .attr("x", d => xScale(d.day))  // ✅ Position bars by day
-      .attr("y", d => yScale(d.avgTip))  // ✅ Use avgTip for height
-      .attr("height", d => innerHeight - yScale(d.avgTip))  // ✅ Scaled height
-      .attr("width", xScale.bandwidth())  // ✅ Auto width from scaleBand
+      .attr("x", d => xScale(d.day))  
+      .attr("y", d => yScale(d.avgTip))  
+      .attr("height", d => innerHeight - yScale(d.avgTip))  
+      .attr("width", xScale.bandwidth())  
       .attr("fill", "#69b3a2")
    svg.append("text")
       .attr("text-anchor", "middle")
